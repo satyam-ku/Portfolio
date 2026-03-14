@@ -1,0 +1,74 @@
+<section id="contact" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Contact</span>
+      <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+      <p class="section-desc">Have a project in mind or just want to say hello? I'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+
+      <div class="contact-links">
+        <a href="mailto:rajsatyam2005@gmail.com" class="contact-card glass-card" id="contact-email">
+          <div class="contact-card-icon">✉️</div>
+          <div>
+            <div class="contact-card-label">Email</div>
+            <div class="contact-card-value">rajsatyam2005@gmail.com</div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tel:+919693598441" class="contact-card glass-card" id="contact-phone">
+          <div class="contact-card-icon">📱</div>
+          <div>
+            <div class="contact-card-label">Mobile</div>
+            <div class="contact-card-value">+91 96935 98441</div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/satyamku/" target="_blank" rel="noopener" class="contact-card glass-card" id="contact-linkedin">
+          <div class="contact-card-icon">💼</div>
+          <div>
+            <div class="contact-card-label">LinkedIn</div>
+            <div class="contact-card-value">linkedin.com/in/satyamku</div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://github.com/satyam-ku" target="_blank" rel="noopener" class="contact-card glass-card" id="contact-github">
+          <div class="contact-card-icon">🐙</div>
+          <div>
+            <div class="contact-card-label">GitHub</div>
+            <div class="contact-card-value">github.com/satyam-ku</div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <form class="contact-form glass-card" id="contact-form" onsubmit="handleSubmit(event)">
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject"    value="New Portfolio Message from Contact Form" />
+        <input type="hidden" name="from_name"  value="Portfolio Contact" />
+        <input type="checkbox" name="botcheck" style="display:none" />
+
+        <h3>Send a Message</h3>
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Your Message" required> </textarea>
+        </div>
+        <button type="submit" class="btn-primary submit-btn" id="contact-submit">
+          <span id="btn-text">Send Message</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        </button>
+        <div id="form-success" class="form-success hidden">✅ Message sent! I'll get back to you soon.</div>
+        <div id="form-error"   class="form-error   hidden">❌ Oops! Something went wrong. Please email me directly.</div>
+      </form>
+
+    </div>
+  </div>
+</section>
