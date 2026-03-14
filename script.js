@@ -8,6 +8,9 @@ window.addEventListener('scroll', () => {
   document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 30);
 });
 
+// Ensure navbar always has scrolled class (for mobile, always show background)
+document.getElementById('navbar')?.classList.add('scrolled');
+
 // ── Hamburger menu ──────────────────────────────────────────
 const hamburger   = document.getElementById('hamburger');
 const navLinksEl  = document.getElementById('nav-links');
@@ -36,7 +39,7 @@ if (window.innerWidth > 768) {
   const glow = document.createElement('div');
   glow.style.cssText = `
     position:fixed;width:320px;height:320px;pointer-events:none;
-    background:radial-gradient(circle,rgba(99,102,241,0.07) 0%,transparent 70%);
+    background:radial-gradient(circle,rgba(236,72,153,0.07) 0%,transparent 70%);
     border-radius:50%;z-index:9999;
     transform:translate(-50%,-50%);transition:left 0.12s ease,top 0.12s ease;`;
   document.body.appendChild(glow);
