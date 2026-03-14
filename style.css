@@ -446,7 +446,7 @@ body {
 }
 
 .stat-num {
-  font-fmily: var(--font-display);
+  font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 800;
   color: #fff;
@@ -473,6 +473,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 320px;
 }
 
 .avatar-ring {
@@ -1321,7 +1322,8 @@ body {
   .hero {
     flex-direction: column;
     text-align: center;
-    padding-top: 120px;
+    padding: 110px 1.5rem 60px;
+    gap: 2.5rem;
   }
 
   .hero-sub {
@@ -1338,7 +1340,18 @@ body {
 
   .hero-visual {
     order: -1;
+    flex: 0 0 auto;
+    min-height: unset;
   }
+
+  .avatar-ring {
+    width: 220px;
+    height: 220px;
+  }
+
+  .card-py  { right: -5px; }
+  .card-ml  { right: -10px; }
+  .card-js  { left:  -5px; }
 
   .skills-grid {
     grid-template-columns: 1fr 1fr;
@@ -1376,6 +1389,50 @@ body {
     display: flex;
   }
 
+  /* Profile picture — show on mobile, smaller ring */
+  .hero-visual {
+    display: flex;
+    order: -1;
+    flex: 0 0 auto;
+  }
+
+  .avatar-ring {
+    width: 180px;
+    height: 180px;
+    box-shadow: 0 0 40px rgba(236, 72, 153, 0.35);
+  }
+
+  /* Hide floating skill badges on mobile to prevent overflow */
+  .floating-card {
+    display: none;
+  }
+
+  .hero {
+    padding: 100px 1.25rem 50px;
+    gap: 2rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.4rem, 10vw, 3.5rem);
+    letter-spacing: -1px;
+  }
+
+  .hero-tagline {
+    font-size: 1.1rem;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+  }
+
+  .hero-stats {
+    gap: 1rem;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+  }
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -1394,10 +1451,6 @@ body {
 
   .contact-grid {
     grid-template-columns: 1fr;
-  }
-
-  .hero-visual {
-    display: none;
   }
 
   .timeline::before {
@@ -1423,16 +1476,39 @@ body {
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 90px 1rem 40px;
+  }
+
   .hero-name {
-    font-size: 3rem;
+    font-size: clamp(2rem, 12vw, 2.8rem);
+    letter-spacing: -0.5px;
+  }
+
+  .avatar-ring {
+    width: 150px;
+    height: 150px;
   }
 
   .hero-stats {
-    gap: 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .stat-num {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
   }
 
   .timeline-header {
