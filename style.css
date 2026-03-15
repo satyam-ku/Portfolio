@@ -1539,3 +1539,19 @@ body {
     border-top: 1px solid var(--border);
   }
 }
+
+/* =================== CONTACT SUBMIT BUTTON =================== */
+.submit-btn {
+  display: inline-flex;    /* auto width, not full-width */
+  width: auto;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.88rem;
+  border-radius: 9px;
+  box-shadow: 0 3px 16px rgba(236, 72, 153, 0.28);
+  gap: 0.4rem;
+}
+
+.submit-btn svg {
+  width: 15px;
+  height: 15px;
+}
