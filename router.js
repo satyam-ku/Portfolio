@@ -1,6 +1,7 @@
 // ============================================================
 //  ROUTER.JS — Client-side SPA router
-//  Fetches section HTML, injects into #app, runs init per section
+//  • Desktop (> 768 px) : click-based SPA (one section at a time)
+//  • Mobile  (≤ 768 px) : all sections loaded & stacked; user scrolls
 // ============================================================
 
 const ROUTES = {
@@ -12,14 +13,19 @@ const ROUTES = {
   certifications: 'sections/certifications.html',
   contact:        'sections/contact.html',
 };
+const ROUTE_ORDER = ['home','about','skills','projects','education','certifications','contact'];
 
 const cache   = {};   // HTML cache so we never fetch twice
-let   current = null; // Currently active route
+let   current = null; // Currently active route (desktop only)
+let   currentMode = null; // 'mobile' | 'desktop'
 
 // ── Detect mobile ────────────────────────────────────────────
 const isMobile = () => window.innerWidth <= 768;
 
-// ── Loading indicator ────────────────────────────────────────
+// ── Utility ──────────────────────────────────────────────────
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── Loading indicator ─────────────────────────────────────────
 function showLoader(app) {
   app.innerHTML = `
     <div style="
@@ -42,7 +48,6 @@ function showLoader(app) {
         animation:loader-bounce 0.9s ease-in-out 0.4s infinite;
       "></span>
     </div>`;
-  // Inject keyframes once
   if (!document.getElementById('loader-style')) {
     const s = document.createElement('style');
     s.id = 'loader-style';
@@ -54,34 +59,28 @@ function showLoader(app) {
   }
 }
 
-// ── Navigate to a named section ─────────────────────────────
+// ============================================================
+//  DESKTOP MODE — click-based SPA (one section at a time)
+// ============================================================
 async function navigate(name) {
   if (!ROUTES[name]) name = 'home';
-  if (current === name) {
-    // On mobile, just close the menu and return
-    closeMenu();
-    return;
-  }
+  if (current === name) { closeMenu(); return; }
 
   const app = document.getElementById('app');
-
-  // 0) Close mobile menu FIRST — before any animation
   closeMenu();
 
-  // 1) Exit animation (shorter on mobile for snappier feel)
   app.classList.remove('app-visible');
-  await sleep(isMobile() ? 140 : 280);
+  await sleep(280);
 
-  // 2) Show loader while fetching
   if (!cache[name]) showLoader(app);
 
-  // 3) Fetch (or use cache)
+  // Fetch (or use cache)
   if (!cache[name]) {
     try {
       const res = await fetch(ROUTES[name]);
       if (!res.ok) throw new Error(res.status);
       cache[name] = await res.text();
-    } catch (e) {
+    } catch {
       app.innerHTML = `<div style="text-align:center;padding:10rem 2rem;color:#f87171">
         ⚠️ Could not load section. Please refresh.</div>`;
       app.classList.add('app-visible');
@@ -89,54 +88,172 @@ async function navigate(name) {
     }
   }
 
-  // 4) Inject HTML
   app.innerHTML = cache[name];
   current = name;
 
-  // 5) Scroll to top (always instant to avoid layout glitch mid-transition)
   window.scrollTo({ top: 0, behavior: 'instant' });
+  history.pushState({ section: name, mode: 'desktop' }, '', '#' + name);
 
-  // 6) Push URL hash
-  history.pushState({ section: name }, '', '#' + name);
+  setActiveNav(name);
 
-  // 7) Update active nav link
-  document.querySelectorAll('.nav-link').forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + name);
-  });
-
-  // 8) Enter animation (double rAF ensures DOM has painted)
   requestAnimationFrame(() => requestAnimationFrame(() => {
     app.classList.add('app-visible');
   }));
 
-  // 9) Run section-specific JS
   initSection(name);
 }
 
-// ── Close mobile nav menu ────────────────────────────────────
+// ============================================================
+//  MOBILE MODE — all sections stacked, scroll-based
+// ============================================================
+async function loadMobileMode() {
+  const app = document.getElementById('app');
+
+  // Show a full-page loader while we fetch everything
+  showLoader(app);
+
+  // Fetch all sections (parallel, using cache when available)
+  await Promise.all(ROUTE_ORDER.map(async name => {
+    if (!cache[name]) {
+      try {
+        const res = await fetch(ROUTES[name]);
+        if (!res.ok) throw new Error(res.status);
+        cache[name] = await res.text();
+      } catch {
+        cache[name] = `<section id="${name}" style="padding:4rem 1rem;text-align:center;color:#f87171">
+          ⚠️ Could not load "${name}". Please refresh.</section>`;
+      }
+    }
+  }));
+
+  // Build one big page: wrap each section in a scroll-target div
+  app.innerHTML = ROUTE_ORDER.map(name =>
+    `<div id="section-${name}" class="mobile-section">${cache[name]}</div>`
+  ).join('');
+
+  // Make app always visible in mobile (no click-transition needed)
+  app.classList.add('app-visible');
+
+  // Run all section inits
+  ROUTE_ORDER.forEach(name => initSection(name));
+
+  // Scroll-spy: update active nav link as user scrolls
+  setupScrollSpy();
+
+  // If there's a hash, scroll to it
+  const hash = location.hash.slice(1);
+  if (hash && ROUTES[hash]) {
+    scrollToSection(hash, false);
+  }
+}
+
+// ── Smooth scroll to a section anchor (mobile) ───────────────
+function scrollToSection(name, smooth = true) {
+  const target = document.getElementById('section-' + name);
+  if (!target) return;
+  const navH = document.getElementById('navbar')?.offsetHeight || 0;
+  const top  = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+  window.scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+}
+
+// ── Scroll-spy for mobile nav ─────────────────────────────────
+let scrollSpyTimer = null;
+function setupScrollSpy() {
+  window.removeEventListener('scroll', onScrollSpy);
+  window.addEventListener('scroll', onScrollSpy, { passive: true });
+}
+
+function onScrollSpy() {
+  if (scrollSpyTimer) return;
+  scrollSpyTimer = requestAnimationFrame(() => {
+    scrollSpyTimer = null;
+    const navH = document.getElementById('navbar')?.offsetHeight || 60;
+    let active = ROUTE_ORDER[0];
+    for (const name of ROUTE_ORDER) {
+      const el = document.getElementById('section-' + name);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top <= navH + 40) active = name;
+    }
+    setActiveNav(active);
+    // Update hash silently without pushing history
+    history.replaceState({ section: active, mode: 'mobile' }, '', '#' + active);
+  });
+}
+
+// ============================================================
+//  SHARED helpers
+// ============================================================
+function setActiveNav(name) {
+  document.querySelectorAll('.nav-link').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + name);
+  });
+}
+
 function closeMenu() {
   document.getElementById('nav-links')?.classList.remove('open');
   resetHamburger();
 }
 
-// ── Browser back / forward ───────────────────────────────────
-window.addEventListener('popstate', e => {
-  navigate(e.state?.section || 'home');
-});
-
-// ── Global click delegation (nav links + in-section <a href="#..."> buttons) ─
+// ============================================================
+//  CLICK DELEGATION
+//  • Desktop → SPA navigate()
+//  • Mobile  → smooth-scroll to section anchor
+// ============================================================
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href^="#"]');
   if (!link) return;
   const section = link.getAttribute('href').slice(1);
-  if (!ROUTES[section]) return;          // not a route → normal behaviour
+  if (!ROUTES[section]) return;   // not a route → normal behaviour
   e.preventDefault();
-  navigate(section);
+  closeMenu();
+  if (isMobile()) {
+    scrollToSection(section);
+  } else {
+    navigate(section);
+  }
+});
+
+// ── Browser back / forward ─────────────────────────────────
+window.addEventListener('popstate', e => {
+  const name = e.state?.section || 'home';
+  if (isMobile()) {
+    scrollToSection(name);
+  } else {
+    navigate(name);
+  }
+});
+
+// ============================================================
+//  MODE SWITCHER — re-initialises when viewport crosses 768 px
+// ============================================================
+function initMode() {
+  const mode = isMobile() ? 'mobile' : 'desktop';
+  if (mode === currentMode) return;   // already in this mode
+  currentMode = mode;
+  current = null;                     // reset desktop route tracker
+
+  const app = document.getElementById('app');
+
+  if (mode === 'mobile') {
+    // Remove desktop-only classes/state
+    app.classList.add('app-visible');
+    loadMobileMode();
+  } else {
+    // Switch to desktop SPA
+    window.removeEventListener('scroll', onScrollSpy);
+    app.innerHTML = '';
+    app.classList.remove('app-visible');
+    const hash = location.hash.slice(1);
+    navigate(ROUTES[hash] ? hash : 'home');
+  }
+}
+
+// Debounced resize handler
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(initMode, 250);
 });
 
 // ── Initial page load ────────────────────────────────────────
-const initHash = location.hash.slice(1);
-navigate(ROUTES[initHash] ? initHash : 'home');
-
-// ── Utility ──────────────────────────────────────────────────
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+initMode();
