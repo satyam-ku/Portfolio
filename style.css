@@ -769,11 +769,106 @@ body {
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* =================== PROJECTS =================== */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* =================== PROJECTS — CAROUSEL =================== */
+
+.projects-carousel-outer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* The visible window — clips the overflowing cards */
+.projects-carousel-viewport {
+  flex: 1;
+  overflow: hidden;          /* JS uses translateX on the track */
+  cursor: grab;
+  user-select: none;
+}
+
+.projects-carousel-viewport:active { cursor: grabbing; }
+
+/* The sliding strip — JS moves this with translateX */
+.projects-carousel-track {
+  display: flex;
   gap: 1.5rem;
+  transition: transform 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  /* Don't allow flex items to shrink — they must stay full width */
+  flex-wrap: nowrap;
+}
+
+/* Each card item — JS will override width/flex in pixels */
+.proj-card-item {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  /* fallback width before JS runs (3-column): overridden by JS immediately */
+  flex: 0 0 calc(33.333% - 1rem);
+  width: calc(33.333% - 1rem);
+}
+
+/* Arrow buttons */
+.carousel-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.carousel-btn:hover {
+  background: rgba(236, 72, 153, 0.18);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+  transform: scale(1.08);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.28;
+  cursor: default;
+  transform: none;
+}
+
+.carousel-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text);
+}
+
+/* Dot indicators */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: var(--primary);
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.6);
+  transform: scale(1.35);
+}
+
+.carousel-dot:hover:not(.active) {
+  background: rgba(236, 72, 153, 0.4);
 }
 
 .project-card {
@@ -1461,8 +1556,16 @@ body {
     font-size: 1.6rem;
   }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
+
+  /* Carousel: smaller arrow buttons on narrow screens */
+  .carousel-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .carousel-btn svg {
+    width: 18px;
+    height: 18px;
   }
 
   .skills-grid {
