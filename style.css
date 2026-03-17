@@ -43,6 +43,32 @@ body {
   overflow-x: hidden;
 }
 
+.skills-section {
+  margin: 20px 0;
+}
+
+.skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  margin: 8px;
+  border-radius: 25px;
+  background: rgba(255, 0, 150, 0.1);
+  border: 1px solid rgba(255, 0, 150, 0.3);
+  color: #fff;
+  font-size: 14px;
+}
+
+.skill i {
+  font-size: 22px;
+}
+
+.skill img {
+  width: 22px;
+  height: 22px;
+}
+
 /* =================== SCROLLBAR =================== */
 ::-webkit-scrollbar {
   width: 6px;
