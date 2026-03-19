@@ -7,171 +7,144 @@
       </h2>
     </div>
 
-    <!-- Carousel Wrapper -->
-    <div class="projects-carousel-outer">
-
+    <div class="projects-slider-wrapper">
+      
       <!-- Prev Button -->
-      <button class="carousel-btn" id="proj-prev" aria-label="Previous projects">
+      <button type="button" class="proj-nav-btn prev-btn" id="proj-slide-prev" aria-label="Previous project">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M15 18l-6-6 6-6"/>
         </svg>
       </button>
 
-      <!-- Viewport clips overflow -->
-      <div class="projects-carousel-viewport" id="proj-viewport">
-        <div class="projects-carousel-track" id="proj-track">
+      <div class="projects-grid" id="projects-grid-container">
 
-          <!-- Card 1: fitCore -->
-          <div class="proj-card-item">
-            <div class="project-card glass-card" id="project-gym">
-              <div class="project-top">
-                <div class="project-badge">Featured</div>
-                <div class="project-emoji">🏋️</div>
-                <div class="project-date">Jul 2025</div>
-              </div>
-              <h3 class="project-title">fitCore</h3>
-              <p class="project-subtitle">Gym Management System</p>
-              <p class="project-desc">
-                A full-stack Gym Management System to streamline member onboarding,
-                trainer management, attendance tracking, and payment processing.
-              </p>
-              <ul class="project-highlights">
-                <li>Modules for member registration, trainer mgmt &amp; attendance</li>
-                <li>Interactive dashboards for activity, schedules &amp; revenue</li>
-                <li>Search &amp; real-time updates reduced admin work by 30%</li>
-              </ul>
-              <div class="project-tags">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Flask</span>
-                <span class="tech-tag">SQLAlchemy</span>
-                <span class="tech-tag">SQLite</span>
-                <span class="tech-tag">HTML</span>
-                <span class="tech-tag">CSS</span>
-                <span class="tech-tag">JavaScript</span>
-              </div>
-              <a href="#" target="_blank" rel="noopener" class="project-link" id="gym-github">
-                View on GitHub
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
+        <!-- Card 1: fitCore -->
+        <div class="new-project-card">
+          <div class="project-img-wrapper">
+            <!-- TODO: Replace src with actual project cover -->
+            <img src="assets/gym2.png" alt="fitCore Cover" class="project-cover">
+            <div class="project-badge">Featured</div>
+          </div>
+          <div class="project-content">
+            <div class="project-categories">
+              <span class="category-pill full-stack">Full Stack</span>
+            </div>
+            <h3 class="project-title">fitCore</h3>
+            <p class="project-desc">
+              A full-stack Gym Management System to streamline member onboarding, trainer management, attendance tracking,
+              and payment processing. Features interactive dashboards and real-time updates.
+            </p>
+            <div class="project-tech-stack">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">Flask</span>
+              <span class="tech-chip">SQLAlchemy</span>
+              <span class="tech-chip">SQLite</span>
+              <span class="tech-chip">HTML</span>
+              <span class="tech-chip">CSS</span>
+              <span class="tech-chip">JavaScript</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/satyam-ku/Gym-Management-System" target="_blank"
+                class="proj-btn proj-btn-outline">Source Code</a>
             </div>
           </div>
+        </div>
 
-          <!-- Card 2: deadLockX -->
-          <div class="proj-card-item">
-            <div class="project-card glass-card featured" id="project-deadlockx">
-              <div class="project-top">
-                <div class="project-emoji">🔒</div>
-                <div class="project-date">May 2025</div>
-              </div>
-              <h3 class="project-title">deadLockX</h3>
-              <p class="project-subtitle">Automated Deadlock Detection Tool</p>
-              <p class="project-desc">
-                An automated deadlock detection tool using Python, NetworkX, and
-                Matplotlib that builds Resource Allocation Graphs and detects cycles.
-              </p>
-              <ul class="project-highlights">
-                <li>Constructs Resource Allocation Graphs with cycle detection</li>
-                <li>Resolution Module with automated fixes &amp; manual termination</li>
-                <li>Significantly reduces system troubleshooting time</li>
-              </ul>
-              <div class="project-tags">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">NetworkX</span>
-                <span class="tech-tag">Matplotlib</span>
-                <span class="tech-tag">Graph Theory</span>
-              </div>
-              <a href="https://github.com/satyam-ku/Automated-Deadlock-Detection-Tool" target="_blank" rel="noopener" class="project-link" id="deadlockx-github">
-                View on GitHub
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
+        <!-- Card 2: deadLockX -->
+        <div class="new-project-card">
+          <div class="project-img-wrapper">
+            <!-- TODO: Replace src with actual project cover -->
+            <img src="assets/dead.png" alt="deadLockX Cover" class="project-cover">
+          </div>
+          <div class="project-content">
+            <div class="project-categories">
+              <span class="category-pill data-science">Algorithms</span>
+            </div>
+            <h3 class="project-title">deadLockX</h3>
+            <p class="project-desc">
+              An automated deadlock detection tool using Python, NetworkX, and Matplotlib that builds Resource Allocation
+              Graphs, detects cycles, and provides automated resolution.
+            </p>
+            <div class="project-tech-stack">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">NetworkX</span>
+              <span class="tech-chip">Matplotlib</span>
+              <span class="tech-chip">Graph Theory</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/satyam-ku/Automated-Deadlock-Detection-Tool" target="_blank"
+                class="proj-btn proj-btn-outline">Source Code</a>
             </div>
           </div>
+        </div>
 
-          <!-- Card 3: boxCast -->
-          <div class="proj-card-item">
-            <div class="project-card glass-card" id="project-boxcast">
-              <div class="project-top">
-                <div class="project-emoji">🎬</div>
-                <div class="project-date">Apr 2025</div>
-              </div>
-              <h3 class="project-title">boxCast</h3>
-              <p class="project-subtitle">Movie Box-Office Revenue Predictor</p>
-              <p class="project-desc">
-                An ML pipeline using Python, Scikit-learn, and Pandas to forecast
-                box-office revenue from budget, cast, genre, and audience trends.
-              </p>
-              <ul class="project-highlights">
-                <li>One-Hot Encoding, StandardScaler &amp; multicollinearity checks</li>
-                <li>Evaluated Linear Regression, Random Forest &amp; XGBoost</li>
-                <li>Performance visualized with Matplotlib &amp; Seaborn</li>
-              </ul>
-              <div class="project-tags">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Scikit-learn</span>
-                <span class="tech-tag">Pandas</span>
-                <span class="tech-tag">XGBoost</span>
-                <span class="tech-tag">Seaborn</span>
-              </div>
-              <a href="https://github.com/satyam-ku/Predicting-Movie-Box-Office-Revenue" target="_blank" rel="noopener" class="project-link" id="boxcast-github">
-                View on GitHub
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
+        <!-- Card 4: greenVolt -->
+        <div class="new-project-card">
+          <div class="project-img-wrapper">
+            <!-- TODO: Replace src with actual project cover -->
+            <img src="assets/chatbot.png" alt="greenVolt Cover" class="project-cover">
+          </div>
+          <div class="project-content">
+            <div class="project-categories">
+              <span class="category-pill ai-integration">AI Chatbot</span>
+              <span class="category-pill data-science">Data</span>
+            </div>
+            <h3 class="project-title">greenVolt</h3>
+            <p class="project-desc">
+              An AI-powered chatbot using NLP to guide users on renewable energy options. It features a recommendation
+              engine that calculates cost savings, feasibility, and payback period.
+            </p>
+            <div class="project-tech-stack">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">NLP</span>
+              <span class="tech-chip">Dashboard</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/satyam-ku/Renewable-Energy-Advisor" target="_blank"
+                class="proj-btn proj-btn-outline">Source Code</a>
             </div>
           </div>
-
-          <!-- Card 4: greenVolt -->
-          <div class="proj-card-item">
-            <div class="project-card glass-card" id="project-greenvolt">
-              <div class="project-top">
-                <div class="project-emoji">⚡</div>
-                <div class="project-date">Mar 2025</div>
-              </div>
-              <h3 class="project-title">greenVolt</h3>
-              <p class="project-subtitle">Renewable Energy Advisor</p>
-              <p class="project-desc">
-                An AI-powered chatbot using Python and NLP to guide users on solar,
-                wind, and hybrid energy options with ROI recommendations.
-              </p>
-              <ul class="project-highlights">
-                <li>Recommendation engine for energy potential, cost savings &amp; ROI</li>
-                <li>Interactive dashboards for feasibility &amp; payback period</li>
-                <li>Personalized energy plans via NLP-driven chat</li>
-              </ul>
-              <div class="project-tags">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">NLP</span>
-                <span class="tech-tag">AI Chatbot</span>
-                <span class="tech-tag">Dashboard</span>
-              </div>
-              <a href="https://github.com/satyam-ku/Renewable-Energy-Advisor" target="_blank" rel="noopener" class="project-link" id="greenvolt-github">
-                View on GitHub
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
+        </div>
+        
+        <!-- Card 3: boxCast -->
+        <div class="new-project-card">
+          <div class="project-img-wrapper">
+            <!-- TODO: Replace src with actual project cover -->
+            <img src="assets/boxcast.png" alt="boxCast Cover" class="project-cover">
+          </div>
+          <div class="project-content">
+            <div class="project-categories">
+              <span class="category-pill ai-integration">Machine Learning</span>
+            </div>
+            <h3 class="project-title">boxCast</h3>
+            <p class="project-desc">
+              An ML pipeline leveraging Scikit-learn and XGBoost to forecast box-office revenue based on budget, cast,
+              genre, and audience trends. Includes visualizations via Seaborn.
+            </p>
+            <div class="project-tech-stack">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">Scikit-learn</span>
+              <span class="tech-chip">Pandas</span>
+              <span class="tech-chip">XGBoost</span>
+              <span class="tech-chip">Seaborn</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/satyam-ku/Predicting-Movie-Box-Office-Revenue" target="_blank"
+                class="proj-btn proj-btn-outline">Source Code</a>
             </div>
           </div>
+        </div>
 
-        </div><!-- /track -->
-      </div><!-- /viewport -->
+      </div>
 
       <!-- Next Button -->
-      <button class="carousel-btn" id="proj-next" aria-label="Next projects">
+      <button type="button" class="proj-nav-btn next-btn" id="proj-slide-next" aria-label="Next project">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M9 18l6-6-6-6"/>
         </svg>
       </button>
 
-    </div><!-- /outer -->
-
-    <!-- Dot indicators (one per page) -->
-    <div class="carousel-dots" id="proj-dots"></div>
+    </div>
 
   </div>
 </section>

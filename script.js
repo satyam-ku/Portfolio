@@ -152,123 +152,33 @@ function initHome() {
 
 // ── PROJECTS section ─────────────────────────────────────────
 function initProjects() {
-  var track    = document.getElementById('proj-track');
-  var vp       = document.getElementById('proj-viewport');
-  var dotsWrap = document.getElementById('proj-dots');
-  var btnPrev  = document.getElementById('proj-prev');
-  var btnNext  = document.getElementById('proj-next');
+  const container = document.getElementById('projects-grid-container');
+  const btnPrev = document.getElementById('proj-slide-prev');
+  const btnNext = document.getElementById('proj-slide-next');
 
-  if (!track || !vp || !btnPrev || !btnNext) return;
+  if (!container || !btnPrev || !btnNext) return;
 
-  var page = 0;
-  var perPage, pages, cardW, gapPx;
-  var resizeTimer;
-
-  function setup() {
-    var vpW = vp.offsetWidth;
-    perPage = vpW < 580 ? 1 : vpW < 920 ? 2 : 3;
-
-    var cs = window.getComputedStyle(track);
-    gapPx  = parseFloat(cs.columnGap || cs.gap) || 24;
-
-    cardW = (vpW - gapPx * (perPage - 1)) / perPage;
-
-    var items = track.querySelectorAll('.proj-card-item');
-
-    items.forEach(function (el) {
-      el.style.flex  = '0 0 ' + cardW + 'px';
-      el.style.width = cardW + 'px';
-    });
-
-    pages = Math.ceil(items.length / perPage);
-    if (page >= pages) page = pages - 1;
-
-    buildDots();
-    moveTo(false);
-  }
-
-  function moveTo(animate) {
-    var offset = page * perPage * (cardW + gapPx);
-
-    track.style.transition = animate
-      ? 'transform 0.48s cubic-bezier(0.4,0,0.2,1)'
-      : 'none';
-
-    track.style.transform = 'translateX(-' + offset + 'px)';
-
-    dotsWrap.querySelectorAll('.carousel-dot').forEach(function (d, i) {
-      d.classList.toggle('active', i === page);
-    });
-
-    btnPrev.disabled = (page === 0);
-    btnNext.disabled = (page >= pages - 1);
-  }
-
-  function go(p) {
-    page = Math.max(0, Math.min(p, pages - 1));
-    moveTo(true);
-  }
-
-  function buildDots() {
-    dotsWrap.innerHTML = '';
-    if (pages <= 1) return;
-
-    for (var i = 0; i < pages; i++) {
-      (function (idx) {
-        var d = document.createElement('button');
-        d.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
-        d.setAttribute('aria-label', 'Slide ' + (idx + 1));
-        d.addEventListener('click', function () { go(idx); });
-        dotsWrap.appendChild(d);
-      })(i);
+  function scrollByCard(direction) {
+    const card = container.querySelector('.new-project-card');
+    if (!card) return;
+    
+    const scrollAmount = card.offsetWidth + 20; 
+    
+    if (typeof container.scrollBy === 'function') {
+      container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollLeft += direction * scrollAmount;
     }
   }
 
-  btnPrev.addEventListener('click', function () { go(page - 1); });
-  btnNext.addEventListener('click', function () { go(page + 1); });
-
-  // Keyboard support
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight') go(page + 1);
-    if (e.key === 'ArrowLeft')  go(page - 1);
-  });
-
-  // Touch swipe
-  var touchStartX = 0;
-
-  vp.addEventListener('touchstart', function (e) {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  vp.addEventListener('touchend', function (e) {
-    var dx = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 50) go(dx > 0 ? page + 1 : page - 1);
-  }, { passive: true });
-
-  // Mouse drag
-  var mouseStartX = 0, mouseDown = false;
-
-  vp.addEventListener('mousedown', function (e) {
-    mouseStartX = e.clientX;
-    mouseDown = true;
+  btnPrev.addEventListener('click', (e) => {
     e.preventDefault();
+    scrollByCard(-1);
   });
 
-  window.addEventListener('mouseup', function (e) {
-    if (!mouseDown) return;
-    mouseDown = false;
-
-    var dx = mouseStartX - e.clientX;
-    if (Math.abs(dx) > 50) go(dx > 0 ? page + 1 : page - 1);
-  });
-
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setup, 150);
-  });
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(setup);
+  btnNext.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollByCard(1);
   });
 }
 

@@ -9,11 +9,12 @@ const ROUTES = {
   about:          'sections/about.html',
   skills:         'sections/skills.html',
   projects:       'sections/projects.html',
+  training:       'sections/training.html',
   education:      'sections/education.html',
   certifications: 'sections/certifications.html',
   contact:        'sections/contact.html',
 };
-const ROUTE_ORDER = ['home','about','skills','projects','education','certifications','contact'];
+const ROUTE_ORDER = ['home','about','skills','projects','training','education','certifications','contact'];
 
 const cache   = {};   // HTML cache so we never fetch twice
 let   current = null; // Currently active route (desktop only)
